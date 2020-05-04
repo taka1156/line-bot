@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "env": {
+    "CHANNEL_ACCESS_TOKEN": "@channel_access_token",
+    "CHANNEL_SECRET": "@channel_secret",
+    "QIITA_TOKEN": "@qiita_token"
+  },
+  "builds": [{ "src": "src/index.js", "use": "@now/node" }],
+  "routes": [
+    { "src": "(.*)", "dest": "src/index.js", "methods": ["GET", "POST"] }
+  ]
+}
