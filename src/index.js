@@ -2,6 +2,8 @@ const express = require('express');
 const line = require('@line/bot-sdk');
 const axios = require('axios');
 const asyncHandler = require('express-async-handler'); // expressでもasync使いたい
+const { format } = require('fecha');// 日付のフォーマット
+const { makeMassage } = require('./flex_massage.js');
 require('dotenv').config();
 
 // トークン
@@ -10,7 +12,7 @@ const config = {
   channelSecret: process.env.CHANNEL_SECRET,
 };
 
-// qiita 認証(60req/1h以上リクエストしたい)
+// qiita 認証(1000req/1h以上リクエストしたい)
 let headers = {
   Accept: 'application/json',
   Authorization: `Bearer ${process.env.QIITA_TOKEN}`,
@@ -40,7 +42,14 @@ app.get(
         // 見つかった
         if (articles != null) {
           if (articles.length !== 0 || articles.message !== 'Not found') {
-            result = formatArticle(articles);
+            result = {
+              type: 'flex',
+              altText: `${TAG}タグの記事上位五件`,
+              contents: {
+                type: 'carousel',
+                contents: formatArticle(articles),
+              },
+            };
           }
         }
       })
@@ -100,7 +109,14 @@ async function handleEvent(event) {
         // 見つかった
         if (articles != null) {
           if (articles.length !== 0 || articles.message !== 'Not found') {
-            result = formatArticle(articles);
+            result = {
+              type: 'flex',
+              altText: `${TAG}タグの記事上位五件`,
+              contents: {
+                type: 'carousel',
+                contents: formatArticle(articles),
+              },
+            };
           }
         }
       })
@@ -144,14 +160,21 @@ function formatArticle(artcles) {
     return b.likes_count - a.likes_count;
   });
 
+  // 上位五件のみを通知
+  artcles = artcles.slice(0, 5);
+
   // 整形
   artcles = artcles.map((article) => {
-    return {
-      type: 'text',
-      text: `タイトル:${article.title}\nGOOD数:${article.likes_count}\nURL:${article.url}`,
+    const FOMART_TIME = format(new Date(article.updated_at), 'YYYY/MM/DD');
+    const artclesInfo = {
+      title: article.title,
+      updated_at: FOMART_TIME,
+      user_img: article.user.profile_image_url,
+      likes_count: article.likes_count,
+      url: article.url,
     };
+    return makeMassage(artclesInfo);
   });
 
-  // 上位五件のみを通知
-  return artcles.slice(0, 5);
+  return artcles;
 }
