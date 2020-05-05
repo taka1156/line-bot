@@ -3,7 +3,7 @@ const line = require('@line/bot-sdk');
 const axios = require('axios');
 const asyncHandler = require('express-async-handler'); // expressでもasync使いたい
 const { format } = require('fecha');// 日付のフォーマット
-const { makeMassage } = require('./flex_massage.js');
+const { makeMassage } = require('./flexMessage.js');
 require('dotenv').config();
 
 // トークン
