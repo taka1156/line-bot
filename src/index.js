@@ -44,7 +44,7 @@ app.get(
           if (articles.length !== 0 || articles.message !== 'Not found') {
             result = {
               type: 'flex',
-              altText: `${TAG}タグの記事上位五件`,
+              altText: `${TAG}タグの記事上位5件`,
               contents: {
                 type: 'carousel',
                 contents: formatArticle(articles),
@@ -111,7 +111,7 @@ async function handleEvent(event) {
           if (articles.length !== 0 || articles.message !== 'Not found') {
             result = {
               type: 'flex',
-              altText: `${TAG}タグの記事上位五件`,
+              altText: `${TAG}タグの記事上位5件`,
               contents: {
                 type: 'carousel',
                 contents: formatArticle(articles),
