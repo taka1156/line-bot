@@ -133,7 +133,7 @@ async function handleEvent(event) {
     }
 
     // こっちから結果を返す(リプライではない)
-    return client.pushMessage(event.source.userId, result);
+    return client.replyMessage(event.replyToken, result);
   } else {
     // おうむ返し
     const PROFILE = await client.getProfile(event.source.userId);
