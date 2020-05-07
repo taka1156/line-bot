@@ -44,12 +44,15 @@ app.get(
           if (articles.length !== 0 || articles.message !== 'Not found') {
             result = {
               type: 'flex',
-              altText: `${TAG}タグの記事上位5件`,
+              altText: `${TAG}タグの記事上位五件`,
               contents: {
                 type: 'carousel',
                 contents: formatArticle(articles),
               },
             };
+
+            // フレックスメッセージが空
+            result = result.contents.contents.length === 0 ? null : result;
           }
         }
       })
@@ -111,12 +114,15 @@ async function handleEvent(event) {
           if (articles.length !== 0 || articles.message !== 'Not found') {
             result = {
               type: 'flex',
-              altText: `${TAG}タグの記事上位5件`,
+              altText: `${TAG}タグの記事上位五件`,
               contents: {
                 type: 'carousel',
                 contents: formatArticle(articles),
               },
             };
+
+            // フレックスメッセージが空
+            result = result.contents.contents.length === 0 ? null : result;
           }
         }
       })
@@ -133,7 +139,7 @@ async function handleEvent(event) {
     }
 
     // こっちから結果を返す(リプライではない)
-    return client.replyMessage(event.replyToken, result);
+    return client.pushMessage(event.source.userId, result);
   } else {
     // おうむ返し
     const PROFILE = await client.getProfile(event.source.userId);
@@ -154,27 +160,27 @@ app.listen(port, () => {
 });
 
 // ソートして記事をタイトルとgood数のみにして、replayできるデータに整形
-function formatArticle(artcles) {
+function formatArticle(articles) {
   // ソート
-  artcles = artcles.sort((a, b) => {
+  articles = articles.sort((a, b) => {
     return b.likes_count - a.likes_count;
   });
 
   // 上位五件のみを通知
-  artcles = artcles.slice(0, 5);
+  articles = articles.slice(0, 5);
 
   // 整形
-  artcles = artcles.map((article) => {
+  articles = articles.map((article) => {
     const FOMART_TIME = format(new Date(article.updated_at), 'YYYY/MM/DD');
-    const artclesInfo = {
+    const articlesInfo = {
       title: article.title,
       updated_at: FOMART_TIME,
       user_img: article.user.profile_image_url,
       likes_count: article.likes_count,
       url: article.url,
     };
-    return makeMassage(artclesInfo);
+    return makeMassage(articlesInfo);
   });
 
-  return artcles;
+  return articles;
 }
