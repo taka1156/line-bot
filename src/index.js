@@ -2,8 +2,8 @@ const express = require('express');
 const line = require('@line/bot-sdk');
 const axios = require('axios');
 const asyncHandler = require('express-async-handler'); // expressでもasync使いたい
-const { format } = require('fecha');// 日付のフォーマット
-const { makeMassage } = require('./flexMessage.js');
+const { format } = require('fecha'); // 日付のフォーマット
+const { makeMessage } = require('./flexMessage.js');
 require('dotenv').config();
 
 // トークン
@@ -13,7 +13,7 @@ const config = {
 };
 
 // qiita 認証(1000req/1h以上リクエストしたい)
-let headers = {
+const headers = {
   Accept: 'application/json',
   Authorization: `Bearer ${process.env.QIITA_TOKEN}`,
 };
@@ -27,9 +27,7 @@ app.get('/', (req, res) => {
 });
 
 // qiita記事の取得だけテスト
-app.get(
-  '/api/:tag',
-  asyncHandler(async (req, res) => {
+app.get('/api/:tag', asyncHandler(async (req, res) => {
     const TAG = req.params.tag;
     const QIITA_API = `https://qiita.com/api/v2/tags/${TAG}/items?page=1&per_page=100`;
     let result;
@@ -38,16 +36,16 @@ app.get(
     await axios
       .get(QIITA_API, { headers: headers, data: {} })
       .then((response) => {
-        let articles = response.data;
+        const { data } = response;
         // 見つかった
-        if (articles != null) {
-          if (articles.length !== 0 || articles.message !== 'Not found') {
+        if (data != null) {
+          if (data.length !== 0 || data.message !== 'Not found') {
             result = {
               type: 'flex',
               altText: `${TAG}タグの記事上位五件`,
               contents: {
                 type: 'carousel',
-                contents: formatArticle(articles),
+                contents: formatArticle(data),
               },
             };
 
@@ -64,7 +62,8 @@ app.get(
     if (result == null || result.length === 0) {
       result = {
         type: 'text',
-        text: '見つかりません。\n(短縮してないワードで指定してみて下さい)。\n(vue => vue.jsなど)',
+        text:
+          '見つかりません。\n(短縮してないワードで指定してみて下さい)。\n(vue => vue.jsなど)',
       };
     }
 
@@ -108,16 +107,16 @@ async function handleEvent(event) {
     await axios
       .get(QIITA_API, { headers: headers, data: {} })
       .then((response) => {
-        const articles = response.data;
+        const { data } = response;
         // 見つかった
-        if (articles != null) {
-          if (articles.length !== 0 || articles.message !== 'Not found') {
+        if (data != null) {
+          if (data.length !== 0 || data.message !== 'Not found') {
             result = {
               type: 'flex',
               altText: `${TAG}タグの記事上位五件`,
               contents: {
                 type: 'carousel',
-                contents: formatArticle(articles),
+                contents: formatArticle(data),
               },
             };
 
@@ -134,11 +133,12 @@ async function handleEvent(event) {
     if (result == null || result.length === 0) {
       result = {
         type: 'text',
-        text: '見つかりません。\n(短縮してないワードで指定してみて下さい)。\n(vue => vue.jsなど)',
+        text:
+          '見つかりません。\n(短縮してないワードで指定してみて下さい)。\n(vue => vue.jsなど)',
       };
     }
 
-    // こっちから結果を返す(リプライではない)
+    // 結果を返す
     return client.pushMessage(event.source.userId, result);
   } else {
     // おうむ返し
@@ -159,7 +159,7 @@ app.listen(port, () => {
   console.log(`listening on ${port}`);
 });
 
-// ソートして記事をタイトルとgood数のみにして、replayできるデータに整形
+// ソートして記事をタイトルとLGTM数、リンクのみにして、FlexMessageのオブジェクトに整形
 function formatArticle(articles) {
   // ソート
   articles = articles.sort((a, b) => {
@@ -174,12 +174,12 @@ function formatArticle(articles) {
     const FOMART_TIME = format(new Date(article.updated_at), 'YYYY/MM/DD');
     const articlesInfo = {
       title: article.title,
-      updated_at: FOMART_TIME,
-      user_img: article.user.profile_image_url,
-      likes_count: article.likes_count,
+      updatedAt: FOMART_TIME,
+      userImg: article.user.profile_image_url,
+      likesCount: article.likes_count,
       url: article.url,
     };
-    return makeMassage(articlesInfo);
+    return makeMessage(articlesInfo);
   });
 
   return articles;

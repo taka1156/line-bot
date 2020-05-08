@@ -1,5 +1,5 @@
 module.exports = {
-  makeMassage({ title, updated_at, user_img, likes_count, url }) {
+  makeMessage({ title, updatedAt, userImg, likesCount, url }) {
     return {
       type: 'bubble',
       header: {
@@ -21,7 +21,7 @@ module.exports = {
         contents: [
           {
             type: 'text',
-            text: `${updated_at}`,
+            text: `${updatedAt}`,
             size: 'lg',
           },
         ],
@@ -33,7 +33,7 @@ module.exports = {
         contents: [
           {
             type: 'image',
-            url: `${user_img}`,
+            url: `${userImg}`,
             aspectMode: 'cover',
             align: 'start',
             size: 'lg',
@@ -59,7 +59,7 @@ module.exports = {
         contents: [
           {
             type: 'text',
-            text: `GOOD(LGTM):${likes_count}`,
+            text: `GOOD(LGTM):${likesCount}`,
             align: 'end',
             size: 'lg',
           },
