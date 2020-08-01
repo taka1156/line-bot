@@ -3,17 +3,16 @@
   "version": "1.0.0",
   "main": "./src/index.js",
   "scripts": {
-    "dev": "now dev",
-    "dev:deploy": "now",
-    "prod:deploy": "now --prod"
+    "dev": "node api/index.js",
+    "dev:deploy": "vercel",
+    "prod:deploy": "vercel --prod"
   },
   "dependencies": {
     "@line/bot-sdk": "^6.8.4",
     "axios": "^0.19.2",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "express-async-handler": "^1.1.4",
-    "fecha": "^4.2.0"
+    "express-async-handler": "^1.1.4"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
