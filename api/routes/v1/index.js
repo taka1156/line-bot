@@ -1,6 +1,6 @@
 const express = require('express');
-const line = require('@line/bot-sdk');
 const router = express.Router();
+const line = require('@line/bot-sdk');
 const asyncHandler = require('express-async-handler'); // expressでもasync使いたい
 const { LineBot } = require('../../service/bot/linebot.js');
 require('dotenv').config();
