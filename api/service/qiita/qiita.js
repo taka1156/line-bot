@@ -48,7 +48,8 @@ function formatArticle(articles) {
 
   // 整形
   articles = articles.map((article) => {
-    const FOMART_TIME = new Date(article.updated_at).toLocaleDateString();
+    const FOMART_TIME = formatTime(article.updated_at)
+
     const FORMAT_ARTICLES = {
       title: article.title,
       updatedAt: FOMART_TIME,
@@ -60,6 +61,10 @@ function formatArticle(articles) {
   });
 
   return articles;
+}
+
+function formatTime(time) {
+  return `${new Date(time).toLocaleDateString('ja-JP')}`.replace(/-/g, '/');
 }
 
 module.exports = { getQiitaArticle };
