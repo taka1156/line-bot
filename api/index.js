@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
-
 const router = require('./routes/v1/');
+
 app.use('/api/v1/', router);
 
 // 応答するport

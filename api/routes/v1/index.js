@@ -1,6 +1,6 @@
 const express = require('express');
-const line = require('@line/bot-sdk');
 const router = express.Router();
+const line = require('@line/bot-sdk');
 const asyncHandler = require('express-async-handler'); // expressでもasync使いたい
 const { LineBot } = require('../../service/bot/linebot.js');
 require('dotenv').config();
@@ -20,12 +20,18 @@ router.get('/', (req, res) => {
 });
 
 // qiita記事の取得だけテスト
-router.get('/qiita/:tag', asyncHandler(async (req, res) => {
-    const TAG = req.params.tag;
-    const MESSAGE = await Bot.replayArticleTest(TAG);
-    res.json(MESSAGE);
+router.get('/qiita/:dummyTag', asyncHandler(async (req, res) => {
+    const { dummyTag } = req.params;
+    const TEST_QIITA_MESSAGE = await Bot.replayQiitaArticleTest(dummyTag);
+    res.json(TEST_QIITA_MESSAGE);
   })
 );
+
+router.get('/parrot/:dummyName/:dummyText', (req, res) => {
+  const { dummyName, dummyText } = req.params;
+  const TEST_PARROT_MESSAGE = Bot.replayParrotTest(dummyName, dummyText);
+  res.json(TEST_PARROT_MESSAGE);
+})
 
 /**
  *ここから下は、LINEbot用の処理
