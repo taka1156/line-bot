@@ -1,17 +1,19 @@
 /**
  * 
- * @param {Array} articles Qiita記事上位五件の配列が入る
+ * @param {Array} articles Qiita記事のLGTM数上位五件の配列が入る(必須)
+ * @return {Array} bubbleメッセージの配列を生成
+ * [bubbleメッセージ](https://developers.line.biz/ja/docs/messaging-api/flex-message-elements/#bubble)
  */
 
-function flexMessage(articles) {
+function carouselMessage(articles) {
   // 記事データをFlexメッセージ形式に変換
   return articles.map((article) => {
-    return formatFlexMessage(article);
+    return formatCarouselMessageMessage(article);
   });
 }
 
 // FlexMessageのオブジェクトに整形
-function formatFlexMessage({ title, updatedAt, userImg, likesCount, url }) {
+function formatCarouselMessageMessage({ title, updatedAt, userImg, likesCount, url }) {
   return {
     type: 'bubble',
     header: {
@@ -99,5 +101,5 @@ function formatFlexMessage({ title, updatedAt, userImg, likesCount, url }) {
 }
 
 module.exports = {
-  flexMessage,
+  carouselMessage,
 };

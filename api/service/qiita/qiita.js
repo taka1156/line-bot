@@ -1,6 +1,12 @@
 const axios = require('axios');
 
-async function getQiitaArticle(tag) {
+/**
+ *
+ * @param {String} tag Qiita記事検索に使うタグ(必須)
+ * @return {Array} Qiita記事のLGTM数上位五件
+ */
+
+async function getQiitaArticle(tag = '未設定') {
   // qiita 認証(1000req/1h以上リクエストしたい)
   const HEADERS = {
     Accept: 'application/json',
@@ -36,7 +42,13 @@ async function getQiitaArticle(tag) {
   }
 }
 
-// ソートして記事をタイトルとLGTM数、リンクのみにする
+/**
+ *
+ * @param {Array} articles 取得したQiita記事n~100件(必須)
+ * @return {Array} Qiita記事のLGTM数上位五件
+ */
+
+// ソートして記事をタイトルとLGTM数、リンク、投稿したユーザーアイコンのみにする
 function formatArticle(articles) {
   // ソート
   articles = articles.sort((a, b) => {
@@ -48,7 +60,7 @@ function formatArticle(articles) {
 
   // 整形
   articles = articles.map((article) => {
-    const FOMART_TIME = formatTime(article.updated_at)
+    const FOMART_TIME = formatDate(article.updated_at);
 
     const FORMAT_ARTICLES = {
       title: article.title,
@@ -57,13 +69,14 @@ function formatArticle(articles) {
       likesCount: article.likes_count,
       url: article.url,
     };
+
     return FORMAT_ARTICLES;
   });
 
   return articles;
 }
 
-function formatTime(time) {
+function formatDate(time) {
   return `${new Date(time).toLocaleDateString('ja-JP')}`.replace(/-/g, '/');
 }
 
