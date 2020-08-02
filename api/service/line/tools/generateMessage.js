@@ -5,15 +5,15 @@
  * [bubbleメッセージ](https://developers.line.biz/ja/docs/messaging-api/flex-message-elements/#bubble)
  */
 
-function carouselMessage(articles) {
-  // 記事データをFlexメッセージ形式に変換
+function bubblesMessage(articles) {
+  // 記事データをbubbleメッセージ形式に変換
   return articles.map((article) => {
-    return formatCarouselMessageMessage(article);
+    return formatBubblesMessage(article);
   });
 }
 
-// FlexMessageのオブジェクトに整形
-function formatCarouselMessageMessage({ title, updatedAt, userImg, likesCount, url }) {
+// bubbleメッセージのオブジェクトに整形
+function formatBubblesMessage({ title, updatedAt, userImg, likesCount, url }) {
   return {
     type: 'bubble',
     header: {
@@ -101,5 +101,5 @@ function formatCarouselMessageMessage({ title, updatedAt, userImg, likesCount, u
 }
 
 module.exports = {
-  carouselMessage,
+  bubblesMessage,
 };
