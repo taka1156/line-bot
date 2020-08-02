@@ -1,4 +1,4 @@
-const { carouselMessage } = require('./tools/generateMessage.js');
+const { bubblesMessage } = require('./tools/generateMessage.js');
 
 /**
  * @param {String} name Lineのメッセージを送り主(必須)
@@ -49,7 +49,7 @@ function replyQiitaMessage(tag = '未設定', articles) {
       altText: `${tag}タグの記事上位五件`,
       contents: {
         type: 'carousel',
-        contents: carouselMessage(articles),
+        contents: bubblesMessage(articles),
       },
     };
   }
