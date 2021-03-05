@@ -56,10 +56,10 @@ function formatArticle(qiitaArticles: QiitaArticle[]) {
   });
 
   // 上位五件のみを通知
-  qiitaArticles.slice(0, 5);
+  const topQiitaArticles = qiitaArticles.slice(0, 5);
 
   // 整形
-  const articles: FormatedArticle[] = qiitaArticles.map((article) => {
+  const articles: FormatedArticle[] = topQiitaArticles.map((article) => {
     const FOMART_TIME = formatDate(article.updated_at);
 
     const FORMAT_ARTICLES: FormatedArticle = {

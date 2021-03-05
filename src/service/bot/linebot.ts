@@ -5,7 +5,7 @@ import {
   TextEventMessage,
   EventBase,
 } from '@line/bot-sdk';
-import { replyParrot, replyTag, replyQiitaMessage } from '../line/line';
+import { replyParrot, replyTag, replyQiitaMessage } from '../lineMsg/lineMsg';
 import { getQiitaArticle } from '../qiita/qiita';
 
 interface LineBotInterface {
