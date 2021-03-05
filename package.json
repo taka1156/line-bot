@@ -5,7 +5,7 @@
   "scripts": {
     "build:dev": "NODE_ENV=dev webpack --config ./webpack/dev.config.js",
     "build:prod": "NODE_ENV=prod webpack --config ./webpack/prod.config.js",
-    "dev": "yarn build:dev && node api/server.js",
+    "dev": "yarn build:dev && node dist/server.js",
     "dev:deploy": "yarn build:prod && vercel",
     "prod:deploy": "yarn build:prod && vercel --prod"
   },

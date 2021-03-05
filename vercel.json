@@ -5,7 +5,13 @@
     "CHANNEL_SECRET": "@channel_secret",
     "QIITA_TOKEN": "@qiita_token"
   },
+  "builds": [
+    {
+      "src": "dist/server.js",
+      "use": "@vercel/node"
+    }
+  ],
   "routes": [
-    { "src": "(.*)", "dest": "api/server.js", "methods": ["GET", "POST"] }
+    { "src": "(.*)", "dest": "dist/server.js", "methods": ["GET", "POST"] }
   ]
 }

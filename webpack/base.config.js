@@ -3,7 +3,7 @@ const nodeExternals = require('webpack-node-externals');
 const { TsconfigPathsPlugin } = require('tsconfig-paths-webpack-plugin');
 const path = require('path');
 
-const BUILD_ROOT = path.join(__dirname, '../api');
+const BUILD_ROOT = path.join(__dirname, '../dist');
 const SRC_ROOT = path.join(__dirname, '../src');
 
 module.exports = {
