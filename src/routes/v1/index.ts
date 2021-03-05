@@ -19,7 +19,7 @@ const Bot = new LineBot(client);
 
 // 簡易的なサーバーの生死確認
 router.get('/', (_, res: express.Response) => {
-  res.send('<h1>server is running</h1>');
+  res.send('<h1>TS server is running</h1>');
 });
 
 // qiita記事の取得だけテスト
