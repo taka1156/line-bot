@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "main": "./src/index.js",
   "scripts": {
-    "build:prod": "NODE_ENV=prod webpack --config ./webpack/prod.config.js",
     "build:dev": "NODE_ENV=dev webpack --config ./webpack/dev.config.js",
+    "build:prod": "NODE_ENV=prod webpack --config ./webpack/prod.config.js",
     "dev": "yarn build:dev && node dist/server.js",
-    "dev:deploy": "vercel",
-    "prod:deploy": "vercel --prod"
+    "dev:deploy": "yarn build:prod && vercel",
+    "prod:deploy": "yarn build:prod && vercel --prod"
   },
   "dependencies": {
     "@line/bot-sdk": "^7.2.0",
