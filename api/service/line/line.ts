@@ -1,4 +1,6 @@
-const { bubblesMessage } = require('./tools/generateMessage.js');
+import { TextMessage, FlexMessage } from '@line/bot-sdk';
+
+import { bubblesMessage } from './tools/generateMessage';
 
 /**
  * @param {String} name Lineのメッセージを送り主(必須)
@@ -7,12 +9,12 @@ const { bubblesMessage } = require('./tools/generateMessage.js');
  */
 
 // おうむ返し
-function replyParrot(name = '未設定', text = '未設定') {
+const replyParrot = (name = '未設定', text = '未設定'): TextMessage => {
   return {
     type: 'text',
     text: `${name}さん\n「${text}」と言いましたね`,
   };
-}
+};
 
 /**
  * @param {String} tag Lineのメッセージから取り出したタグ(必須)
@@ -20,12 +22,12 @@ function replyParrot(name = '未設定', text = '未設定') {
  */
 
 // 取得したタグを返す
-function replyTag(tag = '未設定') {
+const replyTag = (tag = '未設定'): TextMessage => {
   return {
     type: 'text',
     text: `${tag}で記事を探しています。\n少し待ってて下さい。`,
   };
-}
+};
 
 /**
  * @param {String} tag Qiita記事検索に使ったタグ(必須)
@@ -34,8 +36,13 @@ function replyTag(tag = '未設定') {
  * [Carouselメッセージ](https://developers.line.biz/ja/docs/messaging-api/flex-message-elements/#carousel)
  */
 
+type QiitaResultMessage = TextMessage | FlexMessage;
+
 // qiita記事の返却
-function replyQiitaMessage(tag = '未設定', articles) {
+const replyQiitaMessage = (
+  tag = '未設定',
+  articles: FormatedArticle[]
+): QiitaResultMessage => {
   if (articles === null) {
     // 返せるデータがない
     return {
@@ -53,9 +60,9 @@ function replyQiitaMessage(tag = '未設定', articles) {
       },
     };
   }
-}
+};
 
-module.exports = {
+export {
   replyParrot,
   replyTag,
   replyQiitaMessage,

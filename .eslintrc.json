@@ -1,15 +1,34 @@
 {
-    "parser": "babel-eslint",
-    "extends": ["eslint:recommended"],
+    "parser": "typescript-eslint-parser",
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:prettier/recommended",
+        "prettier/@typescript-eslint"
+    ],
     "env": {
         "es6": true,
         "node": true
     },
     "globals": {},
     "rules": {
-        "camelcase": [2, {"properties": "always"}],
-        "quotes": [2, "single"],
-        "eqeqeq": [2, "always", {"null": "ignore"}],
+        "camelcase": [
+            2,
+            {
+                "properties": "always"
+            }
+        ],
+        "quotes": [
+            2,
+            "single"
+        ],
+        "eqeqeq": [
+            2,
+            "always",
+            {
+                "null": "ignore"
+            }
+        ],
         "prefer-const": 2
     }
 }

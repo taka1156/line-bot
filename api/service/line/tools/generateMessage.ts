@@ -1,19 +1,24 @@
+import { FlexBubble } from '@line/bot-sdk';
 /**
- * 
+ *
  * @param {Array} articles Qiita記事のLGTM数上位五件の配列が入る(必須)
  * @return {Array} bubbleメッセージの配列を生成
  * [bubbleメッセージ](https://developers.line.biz/ja/docs/messaging-api/flex-message-elements/#bubble)
  */
 
-function bubblesMessage(articles) {
+const bubblesMessage = (articles: FormatedArticle[]): FlexBubble[] => {
   // 記事データをbubbleメッセージ形式に変換
-  return articles.map((article) => {
-    return formatBubblesMessage(article);
-  });
-}
+  return articles.map((article: FormatedArticle) => formatBubblesMessage(article));
+};
 
 // bubbleメッセージのオブジェクトに整形
-function formatBubblesMessage({ title, updatedAt, userImg, likesCount, url }) {
+const formatBubblesMessage = ({
+  title,
+  updatedAt,
+  userImg,
+  likesCount,
+  url,
+}: FormatedArticle): FlexBubble => {
   return {
     type: 'bubble',
     header: {
@@ -98,8 +103,8 @@ function formatBubblesMessage({ title, updatedAt, userImg, likesCount, url }) {
       },
     },
   };
-}
+};
 
-module.exports = {
+export {
   bubblesMessage,
 };

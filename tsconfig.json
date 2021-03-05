@@ -1,0 +1,30 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "esModuleInterop": true,
+        "target": "es6",
+        "alwaysStrict": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noImplicitAny": true,
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "outDir": "dist",
+        "baseUrl": ".",
+        "lib": [
+            "es2015"
+        ],
+        "types": [
+            "@types/node"
+        ],
+        "typeRoots": [
+            "node_modules/＠types",
+            "api/types"
+        ],
+        "paths": {
+            "~/*": [
+                "api/*"
+            ],
+        }
+    }
+}

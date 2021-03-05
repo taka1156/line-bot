@@ -1,4 +1,4 @@
-const axios = require('axios');
+import axios from 'axios';
 
 /**
  *
@@ -6,7 +6,7 @@ const axios = require('axios');
  * @return {Array} Qiita記事のLGTM数上位五件
  */
 
-async function getQiitaArticle(tag = '未設定') {
+const getQiitaArticle = async (tag = '未設定') => {
   // qiita 認証(1000req/1h以上リクエストしたい)
   const HEADERS = {
     Accept: 'application/json',
@@ -18,8 +18,8 @@ async function getQiitaArticle(tag = '未設定') {
 
   // パラメータ
   const PARAMS = {
-    'page': 1,
-    'per_page': 100,
+    page: 1,
+    per_page: 100,
   };
 
   const data = await axios
@@ -40,7 +40,7 @@ async function getQiitaArticle(tag = '未設定') {
       return formatArticle(data);
     }
   }
-}
+};
 
 /**
  *
@@ -49,20 +49,20 @@ async function getQiitaArticle(tag = '未設定') {
  */
 
 // ソートして記事をタイトルとLGTM数、リンク、投稿したユーザーアイコンのみにする
-function formatArticle(articles) {
+function formatArticle(qiitaArticles: QiitaArticle[]) {
   // ソート
-  articles = articles.sort((a, b) => {
+  qiitaArticles.sort((a, b) => {
     return b.likes_count - a.likes_count;
   });
 
   // 上位五件のみを通知
-  articles = articles.slice(0, 5);
+  qiitaArticles.slice(0, 5);
 
   // 整形
-  articles = articles.map((article) => {
+  const articles: FormatedArticle[] = qiitaArticles.map((article) => {
     const FOMART_TIME = formatDate(article.updated_at);
 
-    const FORMAT_ARTICLES = {
+    const FORMAT_ARTICLES: FormatedArticle = {
       title: article.title,
       updatedAt: FOMART_TIME,
       userImg: article.user.profile_image_url,
@@ -76,8 +76,8 @@ function formatArticle(articles) {
   return articles;
 }
 
-function formatDate(time) {
+function formatDate(time: string) {
   return `${new Date(time).toLocaleDateString('ja-JP')}`.replace(/-/g, '/');
 }
 
-module.exports = { getQiitaArticle };
+export { getQiitaArticle };
