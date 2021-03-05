@@ -17,15 +17,15 @@ class LineBot {
       const TEXT = event.message.text;
       const INDEX = TEXT.indexOf('の');
       const TAG = TEXT.substring(0, INDEX);
-      await this.replayQiitaArticle(TAG, event);
+      await this.replyQiitaArticle(TAG, event);
     } else {
       // おうむ返し
-      await this.replayParrot(event);
+      await this.replyParrot(event);
     }
   }
 
   // おうむ返し
-  async replayParrot(event) {
+  async replyParrot(event) {
     // 発言者の名前を取得
     const { displayName } = await this.client.getProfile(event.source.userId);
     // Lineに適したメッセージオブジェクトに整形
@@ -35,7 +35,7 @@ class LineBot {
   }
 
   // 記事データ返却
-  async replayQiitaArticle(tag, event) {
+  async replyQiitaArticle(tag, event) {
     // Tagが取れたか確認
     const TAG_MESSAGE = line.replyTag(tag);
     await this.client.replyMessage(event.replyToken, TAG_MESSAGE);
@@ -48,7 +48,7 @@ class LineBot {
   }
   
   // おうむ返しテスト
-  replayParrotTest(dummyName, dummyText) {
+  replyParrotTest(dummyName, dummyText) {
     // Lineに適したメッセージオブジェクトに整形
     const PARROT_MESSAGE = line.replyParrot(dummyName, dummyText);
     // 返答
@@ -56,7 +56,7 @@ class LineBot {
   }
 
   // Qiita記事取得テスト
-  async replayQiitaArticleTest(dummyTag) {
+  async replyQiitaArticleTest(dummyTag) {
     // Tagが取れたか確認
     const TAG_MESSAGE = line.replyTag(dummyTag);
     // 記事データ取得

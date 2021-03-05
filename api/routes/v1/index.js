@@ -22,14 +22,14 @@ router.get('/', (req, res) => {
 // qiita記事の取得だけテスト
 router.get('/qiita/:dummyTag', asyncHandler(async (req, res) => {
     const { dummyTag } = req.params;
-    const TEST_QIITA_MESSAGE = await Bot.replayQiitaArticleTest(dummyTag);
+    const TEST_QIITA_MESSAGE = await Bot.replyQiitaArticleTest(dummyTag);
     res.json(TEST_QIITA_MESSAGE);
   })
 );
 
 router.get('/parrot/:dummyName/:dummyText', (req, res) => {
   const { dummyName, dummyText } = req.params;
-  const TEST_PARROT_MESSAGE = Bot.replayParrotTest(dummyName, dummyText);
+  const TEST_PARROT_MESSAGE = Bot.replyParrotTest(dummyName, dummyText);
   res.json(TEST_PARROT_MESSAGE);
 })
 
